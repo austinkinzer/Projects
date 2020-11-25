@@ -19,4 +19,4 @@ from scipy.integrate import solve_ivp #integration function for ODE system.
 #   - An array 'time_span' which has [0, t_final] where t_final is the total 
 #       length of time you want the model to simulate.
 #   - An intial solution vector SV_0
-solution = solve_ivp(residual, time_span, SV_0,rtol=1e-4, atol=1e-6)
+#solution = solve_ivp(residual, time_span, SV_0,rtol=1e-4, atol=1e-6)
