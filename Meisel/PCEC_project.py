@@ -14,18 +14,16 @@
         3 - The simulation then returns the solution vector at the end of the 
             integration, which can be processed as needed to plot or analyze any quantities of interest.
 """
-
 # Import necessary modules:
-def pcec_model():
-    # Import necessary modules:
-    from scipy.integrate import solve_ivp #integration function for ODE system.
-    from pcec_functions import residual # point the model to the residual function
-    from pcec_params import pars, SV_0, ptr #imports parameters, the initial SV and the pointer class
+from scipy.integrate import solve_ivp #integration function for ODE system.
+from pcec_functions import residual # point the model to the residual function
+from pcec_params import pars, SV_0, ptr #imports parameters, the initial SV and the pointer class
 
+def pcec_model():
     # The use of the 'lambda' function is required here so that we can pass the 
     #   class variablels 'pars' and 'ptr.'  Otherwise, we can only pass the 
     #   time span and our initial solution SV_0:
     solution = solve_ivp(lambda t, y: residual(t, y, pars, ptr),
-        pars.time_span, SV_0, rtol=1e-5, atol=1e-4, method='BDF')
+        pars.time_span, SV_0, rtol=1e-8, atol=1e-8, method='BDF')
 
     return solution

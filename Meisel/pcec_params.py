@@ -12,6 +12,7 @@ import math
 "Importnat Variables For the SV to work"
 i_ext = 40 #A
 C_dl_neg = 6e5 # F/m2 this makes it so my function does not go to negative infinity
+C_dl_pos = 2e2 # F/m2 (need to look up)
 t_final = 1000 #seconds
 
 "n_values:"
@@ -131,6 +132,7 @@ class pars:
     #important parameters
     i_ext = i_ext
     C_dl_neg = C_dl_neg
+    C_dl_pos = C_dl_pos
     time_span = np.array([0,t_final])
     T = T
 
@@ -188,12 +190,18 @@ class pars:
     #Cathode Geometric Parameters
     A_surf_BCFZY = 4*math.pi*r_BCFZY**2
 
-    "Anode Product calculations" #Calculates the product terms in the mass action equations
+    "Negatrode Product calculations" #Calculates the product terms in the mass action equations
     prod_fwd_neg_o = C_Ox_elyte**-nu_Ox_elyte_neg_o * C_H_Ni**-nu_H_Ni_neg_o  #- signs are needed to cancel out the sign convention of the stoichiometric coefficients
     prod_fwd_neg_p = C_H_Ni**-nu_H_Ni_neg_p * C_vac_Ni**-nu_vac_ely_neg_p
     prod_rev_neg_o = C_vac_elyte**nu_vac_elyte_neg_o * C_H2O_Ni**nu_H2O_Ni_neg_o * C_vac_Ni**nu_vac_Ni_neg_o
     prod_rev_neg_p = C_Hx_elyte**nu_Hx_ely_neg_p * C_vac_Ni**nu_vac_Ni_neg_p
 
+    "Positrode Product calculations" #Calculates the product terms in the mass action equations
+    prod_fwd_pos_o = C_O_BF**-nu_O_BF_pos_o #- signs are needed to cancel out the sign convention of the stoichiometric coefficients
+    prod_fwd_pos_p = C_Hx_BF**-nu_Hx_BF_pos_p * C_O_BF**-nu_O_BF_pos_p
+    prod_rev_pos_o = C_Ox_BF**nu_Ox_BF_pos_o
+    prod_rev_pos_p = C_H2O_BF**nu_H2O_BF_pos_p * C_vac_BF**nu_vac_BF_pos_p
+    
 #/\/\/\/\/\ Making the pointer class/\/\/\/\/\
 #specifies where in SV certain variables are stored
 class ptr:
