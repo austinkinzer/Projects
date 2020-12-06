@@ -83,15 +83,19 @@ X_O_BF = 0.05
 X_Ox_BF = 0.8
 
 "geometric parameters"
+n_brugg = -0.5 #bruggman factor assuming alpha is -1.5
 #anode
-eps_Ni = 0.455 #see calculations
-eps_elyte_neg = 0.545 #See Calculations
-r_Ni_neg = 1*10**-5 #(m)need to measure more accurately
-r_elyte_neg = 5*10**-6 #(m) need to measure more acurately
-r_int = 4*10**-6 #(m) need to measure more accurately, interface region between particles, on SEM images it looks almost like the radius
+eps_Ni = 0.159 #see calculations
+eps_elyte_neg = 0.191 #See Calculations
+eps_gas_neg = 1-eps_Ni-eps_elyte_neg
+d_Ni_neg = 1*10**-5 #(m)rough estimate from SEM images (average diameter of Ni in negatrode)
+d_elyte_neg = 5*10**-6 #(m) rough estimate from SEM images (average diameter of BCZYYb in negatrode)
+d_part_avg = (d_Ni_neg+d_elyte_neg)/2 #just taking a linear average of the two particle sizes
+r_int = 2*10**-6 #(m) rough estimate from SEM images, interface region between particles, on SEM images it looks almost like the radius
 #Cathode
-r_BCFZY = 500*10**-9 #(m) need to measure more accurately
-eps_BCFZY = 0.5 #just assuming 50% porosity need to look up this value
+d_BCFZY = 500*10**-9 #(m) rough estimate from SEM images
+eps_BCFZY = 0.5 #just assuming 50% porosity need to look up this value could measure more accurately
+eps_gas_pos = 1-eps_BCFZY
 
 "Thermodynamic values (first 5 taken from homework 4, last one I had to make up)"
 g_H_Ni_o = -7.109209e+07      # standard-state gibbs energy for H adsorbed on Ni surface (J/kmol)
@@ -185,10 +189,14 @@ class pars:
     "Geometric parameters"
     #Anode Geometric Parameters
     L_TPB = 2*math.pi*r_int
-    A_surf_Ni_neg = 4*math.pi*r_Ni_neg**2
-    A_surf_elyte_neg = 4*math.pi*r_elyte_neg**2
+    A_surf_Ni_neg = 4*math.pi*(d_Ni_neg/2)**2
+    A_surf_elyte_neg = 4*math.pi*(d_elyte_neg/2)**2
+    tau_fac_neg = eps_gas_neg**n_brugg #tortuosity factor
+    Kg_neg = (eps_gas_neg**3*d_part_avg**2)/(72*tau_fac_neg*(1-eps_gas_neg)**2) #gas permeability, see calculations for more details
     #Cathode Geometric Parameters
-    A_surf_BCFZY = 4*math.pi*r_BCFZY**2
+    A_surf_BCFZY = 4*math.pi*(d_BCFZY/2)**2
+    tau_fac_pos = eps_gas_pos**n_brugg
+    Kg_pos = (eps_gas_pos**3*d_part_avg**2)/(72*tau_fac_pos*(1-eps_gas_neg)**2)
 
     "Negatrode Product calculations" #Calculates the product terms in the mass action equations
     prod_fwd_neg_o = C_Ox_elyte**-nu_Ox_elyte_neg_o * C_H_Ni**-nu_H_Ni_neg_o  #- signs are needed to cancel out the sign convention of the stoichiometric coefficients

@@ -16,8 +16,10 @@ def residual(t, SV, pars, ptr):
     
     #----- Negatrode -----
     dphi_neg = SV[ptr.dphi_int_neg_0]
+
+    #Gas Transfer:
     
-    #Mass Action Equations:
+    #Mass Action Equations For Charge Transfer:
     i_Far_neg_o = pars.n_neg_o*F*(pars.k_fwd_star_neg_o*math.exp((-pars.beta_o*pars.n_neg_o*F*dphi_neg)/(R*pars.T))*pars.prod_fwd_neg_o-pars.k_rev_star_neg_o*math.exp(((1-pars.beta_o)*pars.n_neg_o*F*dphi_neg)/(R*pars.T)))
     i_Far_neg_p = pars.n_neg_p*F*(pars.k_fwd_star_neg_p*math.exp((-pars.beta_p*pars.n_neg_p*F*dphi_neg)/(R*pars.T))*pars.prod_fwd_neg_p-pars.k_rev_star_neg_p*math.exp(((1-pars.beta_p)*pars.n_neg_p*F*dphi_neg)/(R*pars.T)))
     i_Far_neg = i_Far_neg_o + i_Far_neg_p
