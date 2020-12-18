@@ -26,4 +26,8 @@ def pcec_model():
     solution = solve_ivp(lambda t, y: residual(t, y, pars, ptr),
         pars.time_span, SV_0, rtol=1e-8, atol=1e-8, method='BDF')
 
+<<<<<<< HEAD
     return solution
+=======
+    return solution
+>>>>>>> d2f2e9416921fe8c319834d2480601bd7973e035
